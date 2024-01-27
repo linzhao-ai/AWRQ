@@ -20,8 +20,8 @@
 - Quantuzation configurations:
   - Weights: per-channel quantization
   - Activations: per-tensor dynamic quantization
-  - Group quantization in weights
-  - bit-widths: W4A8 (4-bit per-channel weight, 8-bit per-tensor activation), W4A6, W3A8
+  - Group quantization in weights: optional
+  - Bit-widths: W4A8 (4-bit per-channel weight, 8-bit per-tensor activation), W4A6, W3A8
 
 All experiments were run on a single NVIDIA A100-40GB.
 

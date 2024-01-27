@@ -23,4 +23,5 @@
 
 # Acknowledgements
 [GPTQ](https://github.com/IST-DASLab/gptq)
+
 [SmoothQuant](https://github.com/mit-han-lab/smoothquant)

@@ -24,4 +24,8 @@
 # Acknowledgements
 [GPTQ](https://github.com/IST-DASLab/gptq)
 
+[AutoGPTQ](https://github.com/AutoGPTQ/AutoGPTQ)
+
 [SmoothQuant](https://github.com/mit-han-lab/smoothquant)
+
+[OmniQuant](https://github.com/OpenGVLab/OmniQuant?tab=readme-ov-file)

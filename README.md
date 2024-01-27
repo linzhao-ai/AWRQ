@@ -3,9 +3,8 @@
 
 # Quick start
 ## Dependency
-- `torch`:
-- transformers:
-
+- `torch`:  tested on 1.13.1+cu117
+- `transformers`: tested on 4.34.0
 
 ## Support
 - Models:
@@ -24,7 +23,9 @@
   - Group quantization
   - W4A8 (4-bit per-channel weight, 8-bit per-tensor activation), W4A6, W3A8
 
- ## 
+All experiments were run on a single NVIDIA A100-40GB.
+
+ ## Usage
 
 # Main Results
 ## LLaMA and LLaMA-2 families

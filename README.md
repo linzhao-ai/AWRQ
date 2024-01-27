@@ -3,7 +3,7 @@
 
 # Quick start
 ## Dependency
-- <torch>:
+- `torch`:
 - transformers:
 
 

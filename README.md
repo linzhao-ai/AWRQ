@@ -8,7 +8,7 @@
 # Main Results
 - Results of LLaMA and LLaMA-2 families on zero-shot tasks at W4A8 (4-bit per-channel weight, 8-bit per-tensor activation) quantization
 
-| Model | Method | PIQA | ARC-e | ARC-c | BoolQ | COPA | StoryCloze | Avg. $$\uparrow$$ |
+| Model | Method | PIQA | ARC-e | ARC-c | BoolQ | COPA | StoryCloze | Avg. $\uparrow$ |
 | ----- | ------ | ------ | ------ | ------ | ------ | ------ | ------ |   
 |LLaMA-1-7B | FP16        | 78.35 | 67.30 | 38.23 | 73.15 | 84.00 | 76.07 | 69.52 |
 |                             | RTN | 70.02 | 56.61 | 33.79 | 61.56 | 83.00 | 72.37 | 62.89 |

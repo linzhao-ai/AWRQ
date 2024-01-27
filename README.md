@@ -4,7 +4,7 @@
 # Quick start
 ## Dependency
 - `torch`:  tested on 1.13.1+cu117
-- `transformers`: tested on 4.34.0
+- `transformers`: tested on version 4.34.0
 
 ## Support
 - Models:

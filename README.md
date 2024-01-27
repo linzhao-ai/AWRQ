@@ -6,7 +6,7 @@
 
 
 # Main Results
-## Results of LLaMA and LLaMA-2 families
+## LLaMA and LLaMA-2 families
 - Results of LLaMA and LLaMA-2 families on zero-shot tasks at W4A8 (4-bit per-channel weight, 8-bit per-tensor activation) quantization.
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/2b264eaf-a6d4-458b-9f8e-c49ad2a8595b)
 
@@ -14,7 +14,7 @@
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/586ee1ee-047e-48be-a701-bcc19d45bcaf)
 
 
-## Results of OPT families
+## OPT families
 - Results of OPT families via perplexity evaluation on WikiText2 at W4A8 quantization.
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/46287f96-f9f6-4741-9630-8ae9449370c4)
 

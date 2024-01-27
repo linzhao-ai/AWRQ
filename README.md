@@ -2,13 +2,29 @@
 
 
 # Quick start
+## Dependency
+- *torch*:
+- transformers:
+
+
 ## Support
 - Models:
   - LLaMA, LLaMA-2
   - OPT
-  
-- Task
+ 
+- Datasets:
+  - Calibration: C4
+  - Evaluation:
+    - Accuracy of tasks: Piqa, ARC-e, ARC-c, BoolQ, COPA, StoryCloze
+    - PPL: Wikitext2, PTB, C4
+   
+- Quantuzation configurations:
+  - Weights: per-channel quantization
+  - Activations: per-tensor dynamic quantization
+  - Group quantization
+  - W4A8 (4-bit per-channel weight, 8-bit per-tensor activation), W4A6, W3A8
 
+ ## 
 
 # Main Results
 ## LLaMA and LLaMA-2 families

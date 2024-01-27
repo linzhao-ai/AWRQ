@@ -4,8 +4,8 @@
 # Quick start
 ## Support
 - Models:
--- LLaMA, LLaMA-2
--- OPT
+  - LLaMA, LLaMA-2
+  - OPT
   
 - Task
 

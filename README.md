@@ -28,11 +28,24 @@ All experiments were run on a single NVIDIA A100-40GB.
  ## Usage
  ### LLaMA and LLaMA-2
  1. RTN
+
+ 2. SmoothQuant
+
+ 3. GPTQ (weight-only)
+
+ 4. AWRQ 
 ```
 python 
 ```
 
 ### OPT
+ 1. RTN
+
+ 2. SmoothQuant
+
+ 3. GPTQ (weight-only)
+
+ 4. AWRQ 
 
 
 # Main Results

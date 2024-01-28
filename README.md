@@ -26,9 +26,13 @@
 All experiments were run on a single NVIDIA A100-40GB.
 
  ## Usage
+ ### LLaMA and LLaMA-2
 ```
 python 
 ```
+
+### OPT
+
 
 # Main Results
 ## LLaMA and LLaMA-2 families

@@ -53,8 +53,6 @@ python
 - Results of LLaMA and LLaMA-2 families on zero-shot tasks at W4A8 (4-bit per-channel weight, 8-bit per-tensor activation) quantization.
 ![image](https://github.com/linzhao-ai/AWRQ/assets/17473403/af68cb71-bdd1-4279-a9a8-a63082e2aed8)
 
-![image](https://github.com/zl200881/AWRQ/assets/17473403/2b264eaf-a6d4-458b-9f8e-c49ad2a8595b)
-
 - Speedup on LLaMA-1-30B and LLaMA-2-13B.
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/586ee1ee-047e-48be-a701-bcc19d45bcaf)
 

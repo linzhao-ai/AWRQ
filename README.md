@@ -29,7 +29,7 @@ All experiments were run on a single NVIDIA A100-40GB.
  ### LLaMA and LLaMA-2: zero_shot
  1. Full precision (FP16)
 ```
- CUDA_VISIBLE_DEVICES=0 python main.py $MODEL_DIR --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --method full
+ CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --method full
 ```
  3. AWRQ
 ```
@@ -65,7 +65,7 @@ CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --ta
 ### OPT: ppl
  1. Full precision (FP16)
 ```
-CUDA_VISIBLE_DEVICES=0 python opt.py $MODEL_DIR --calib_data c4 --method full
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --method full
 ```
  2. AWRQ
 ```

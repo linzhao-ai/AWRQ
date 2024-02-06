@@ -26,26 +26,76 @@
 All experiments were run on a single NVIDIA A100-40GB.
 
  ## Usage
- ### LLaMA and LLaMA-2
- 1. RTN
-
- 2. SmoothQuant
-
- 3. GPTQ (weight-only)
-
- 4. AWRQ 
+ ### LLaMA and LLaMA-2: zero_shot
+ 1. Full precision (FP16)
 ```
-python 
+ CUDA_VISIBLE_DEVICES=0 python main.py $MODEL_DIR --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --method full
+```
+ 3. AWRQ
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq --smooth --alpha 0.50 --min 0.01
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq
+```
+ 2. SmoothQuant
+```
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --method smoothquant --alpha 0.50 --min 0.01
+```
+ 4. RTN
+```
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --method rtn
+```
+ 5. Weight only (GPTQ)
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --groupsize -1 --blocksize 1 --method gptq --smooth --alpha 0.50 --min 0.01
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --groupsize -1 --blocksize 1 --method gptq
+```
+ 6. Activation only
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --act_bits 8 --method act_only --smooth --alpha 0.50 --min 0.01
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --act_bits 8 --method act_only
 ```
 
-### OPT
- 1. RTN
 
- 2. SmoothQuant
-
- 3. GPTQ (weight-only)
-
- 4. AWRQ 
+### OPT: ppl
+ 1. Full precision (FP16)
+```
+CUDA_VISIBLE_DEVICES=0 python opt.py $MODEL_DIR --calib_data c4 --method full
+```
+ 2. AWRQ
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq --smooth --alpha 0.50 --min 0.10
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq
+```
+ 3. SmoothQuant
+```
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 4 --act_bits 8 --groupsize -1 --method smoothquant --alpha 0.50 --min 0.10
+```
+ 4. RTN
+```
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 4 --act_bits 8 --groupsize -1 --method rtn
+```
+ 5. Weight only (GPTQ)
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 4 --groupsize -1 --blocksize 1 --method gptq --smooth --alpha 0.50 --min 0.10
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --wbits 3 --groupsize -1 --blocksize 1 --method gptq
+```
+ 6.  Activation only
+```
+# with smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --act_bits 8 --method act_only --smooth --alpha 0.5 --min 0.1
+# without smoothing
+CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --act_bits 8 --method act_only
+```
 
 
 # Main Results

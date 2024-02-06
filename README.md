@@ -31,14 +31,14 @@ All experiments were run on a single NVIDIA A100-40GB.
 ```
  CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --method full
 ```
- 3. AWRQ
+ 2. AWRQ
 ```
 # with smoothing
 CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq --smooth --alpha 0.50 --min 0.01
 # without smoothing
 CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --blocksize 1 --method awrq
 ```
- 2. SmoothQuant
+ 3. SmoothQuant
 ```
 CUDA_VISIBLE_DEVICES=0 python main.py meta-llama/Llama-2-7b --calib_data c4 --tasks piqa,arc_easy,arc_challenge,boolq,copa,storycloze --table_results --wbits 4 --act_bits 8 --groupsize -1 --method smoothquant --alpha 0.50 --min 0.01
 ```

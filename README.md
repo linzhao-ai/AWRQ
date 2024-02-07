@@ -116,11 +116,3 @@ CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --act_bit
 - Speedup on OPT-30Bat W4A8 quantization.
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/0c14ddfb-90da-461f-89ea-85a14a1df664)
 
-# Acknowledgements
-[GPTQ](https://github.com/IST-DASLab/gptq)
-
-[AutoGPTQ](https://github.com/AutoGPTQ/AutoGPTQ)
-
-[SmoothQuant](https://github.com/mit-han-lab/smoothquant)
-
-[OmniQuant](https://github.com/OpenGVLab/OmniQuant?tab=readme-ov-file)

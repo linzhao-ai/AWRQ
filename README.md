@@ -117,6 +117,8 @@ CUDA_VISIBLE_DEVICES=0 python opt.py facebook/opt-125m --calib_data c4 --act_bit
 ![image](https://github.com/zl200881/AWRQ/assets/17473403/0c14ddfb-90da-461f-89ea-85a14a1df664)
 
 # Acknowledgement
-- [GPTQ: Accurate Post-training Compression for Generative Pretrained Transformers](https://github.com/IST-DASLab/gptq)
-- [SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models](https://github.com/mit-han-lab/smoothquant)
-- [Omniquant: Omnidirectionally calibrated quantization for large language models](https://github.com/OpenGVLab/OmniQuant)
+[GPTQ: Accurate Post-training Compression for Generative Pretrained Transformers](https://github.com/IST-DASLab/gptq)
+  
+[SmoothQuant: Accurate and Efficient Post-Training Quantization for Large Language Models](https://github.com/mit-han-lab/smoothquant)
+
+[Omniquant: Omnidirectionally calibrated quantization for large language models](https://github.com/OpenGVLab/OmniQuant)

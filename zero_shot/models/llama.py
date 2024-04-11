@@ -296,93 +296,49 @@ class LLAMAClass(BaseLM):
                 ]
             else:
                 sequential = [list(full.keys())]
-       
+
+            # quantize weights and activation in layer
             for names in sequential:
                 subset = {n: full[n] for n in names}
 
+                # define awrq 
                 awrq = {}
                 for name in subset:
                     awrq[name] = AWRQ(subset[name], self.args.method)
                     awrq[name].quantizer = Quantizer()
                     awrq[name].quantizer.configure(self.args.wbits, perchannel=True, sym=False, mse=False)
 
-            def add_batch(name):
-                def tmp(_, inp, out):
-                    awrq[name].add_batch(inp[0].data, out.data)
+                def add_batch(name):
+                    def tmp(_, inp, out):
+                        awrq[name].add_batch(inp[0].data, out.data)
 
-                return tmp
+                    return tmp
 
-            # smooth 
-            if self.args.smooth:
-                self.smoothing_layer(layer, subset, awrq, inps, attention_mask, position_ids, outs)
-                # # generate act scales
-                # handles = []
-                # for name in subset:
-                #     print(f'add_batch_act_scales: i={i}, name={name}')
-                #     handles.append(subset[name].register_forward_hook(add_batch_act_scales(name)))
-                # for j in range(self.args.nsamples):
-                #     outs[j] = layer(inps[j].unsqueeze(0), attention_mask=attention_mask, position_ids=position_ids)[0] # hook
+                # smooth and quantize activations
+                if self.args.smooth:
+                    self.smoothing_layer(layer, subset, awrq, inps, attention_mask, position_ids, outs)
 
-                # # smooth scales
-                # qkv_wight_scales = None
-                # mlp_wight_scales = None
-                # for name in subset:
-                #     subset[name].act_scales = awrq[name].act_scales.clone() # act scales
-                #     # weight scales
-                #     subset[name].weight_scales = subset[name].weight.abs().max(dim=0)[0]
-                #     # qkv weight scales
-                #     if 'q_proj' in name or 'k_proj' in name or 'v_proj' in name:
-                #         qkv_wight_scales = torch.max(qkv_wight_scales, subset[name].weight_scales) if qkv_wight_scales is not None else subset[name].weight_scales
-                #     # mlp weight scales
-                #     if 'gate_proj' in name or 'up_proj' in name:
-                #         mlp_wight_scales = torch.max(mlp_wight_scales, subset[name].weight_scales) if mlp_wight_scales is not None else subset[name].weight_scales
-                # # absorb smooth_scales by linear
-                # for name in subset:
-                #     if 'q_proj' in name or 'k_proj' in name or 'v_proj' in name:
-                #         subset[name].weight_scales = qkv_wight_scales
-                #     if 'gate_proj' in name or 'up_proj' in name:
-                #         subset[name].weight_scales = mlp_wight_scales
-                #     subset[name].smooth_scales = (subset[name].act_scales.pow(subset[name].alpha) / subset[name].weight_scales.pow(1-subset[name].alpha)).clamp(min=subset[name].min)
-                #     subset[name].weight.data *= subset[name].smooth_scales # weight*scales
-                #     subset[name].act_scales = None 
-                #     subset[name].weight_scales = None
-                # # absorb smooth_scales by layer norm 
-                # layer.input_layernorm.weight.data /= layer.self_attn.k_proj.smooth_scales            
-                # layer.post_attention_layernorm.weight.data /= layer.mlp.gate_proj.smooth_scales
-                # if hasattr(layer.input_layernorm, 'bias'):
-                #     layer.input_layernorm.bias.data /= layer.self_attn.k_proj.smooth_scales            
-                # if hasattr(layer.post_attention_layernorm, 'bias'):
-                #     layer.post_attention_layernorm.bias.data /= layer.mlp.gate_proj.smooth_scales
-                # layer.self_attn.q_proj.act_smoothed = True
-                # layer.self_attn.k_proj.act_smoothed = True
-                # layer.self_attn.v_proj.act_smoothed = True
-                # layer.mlp.gate_proj.act_smoothed = True
-                # layer.mlp.up_proj.act_smoothed = True
+                # Hessian matrix H
+                if self.args.method in ['gptq', 'awrq']:
+                    handles = []
+                    for name in subset:
+                        handles.append(subset[name].register_forward_hook(add_batch(name)))
+                    for j in range(self.args.nsamples):
+                        outs[j] = layer(inps[j].unsqueeze(0), attention_mask=attention_mask, position_ids=position_ids)[0]
+                    for h in handles:
+                        h.remove()
 
-                # for h in handles:
-                #     h.remove()
-
-            # Hessian matrix H
-            if self.args.method in ['gptq', 'awrq']:
-                handles = []
+                # quantize weights
+                tick = time.time()
                 for name in subset:
-                    handles.append(subset[name].register_forward_hook(add_batch(name)))
-                for j in range(self.args.nsamples):
-                    outs[j] = layer(inps[j].unsqueeze(0), attention_mask=attention_mask, position_ids=position_ids)[0]
-                for h in handles:
-                    h.remove()
-
-            # quantize weights
-            tick = time.time()
-            for name in subset:
-                if self.args.method in ['gptq', 'rtn', 'smoothquant', 'awrq']:
-                    print(i, name)
-                    print('Quantizing ...')
-                    awrq[name].quant_weight(percdamp=self.args.percdamp, blocksize=self.args.blocksize, groupsize=self.args.groupsize, method=self.args.method, actorder=self.args.actorder) 
-                    quantizers['model.decoder.layers.%d.%s' % (i, name)] = awrq[name].quantizer
-                subset[name].act_quant = self.args.act_quant # act_quant 
-                awrq[name].free()
-            quant_time.append(time.time() - tick)
+                    if self.args.method in ['gptq', 'rtn', 'smoothquant', 'awrq']:
+                        print(i, name)
+                        print('Quantizing ...')
+                        awrq[name].quant_weight(percdamp=self.args.percdamp, blocksize=self.args.blocksize, groupsize=self.args.groupsize, method=self.args.method, actorder=self.args.actorder) 
+                        quantizers['model.decoder.layers.%d.%s' % (i, name)] = awrq[name].quantizer
+                    subset[name].act_quant = self.args.act_quant # act_quant 
+                    awrq[name].free()
+                quant_time.append(time.time() - tick)
 
             # quantized results
             for j in range(self.args.nsamples):
